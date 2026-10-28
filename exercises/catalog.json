@@ -1,0 +1,1201 @@
+[
+  {
+    "id": "W01E01",
+    "week": 1,
+    "session": 1,
+    "title": "Meet the clients",
+    "question": "Preview the first five clients by client_id, smallest first.",
+    "tables": "clients",
+    "columns": [
+      "client_id",
+      "client_name",
+      "sector"
+    ],
+    "hints": [
+      "Choose only the three requested columns.",
+      "Sort before taking five rows."
+    ],
+    "pitfall": "LIMIT without ORDER BY does not define which five rows you get.",
+    "ordered": true,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W01E02",
+    "week": 1,
+    "session": 1,
+    "title": "Project grain",
+    "question": "Show the first ten projects by project_id. Each row represents one project, not one client.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "client_id",
+      "status",
+      "budget"
+    ],
+    "hints": [
+      "The client_id may repeat across projects.",
+      "Use ORDER BY and LIMIT."
+    ],
+    "pitfall": "Repeated client IDs do not mean repeated project rows.",
+    "ordered": true,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W01E03",
+    "week": 1,
+    "session": 1,
+    "title": "Market directory",
+    "question": "Show all markets with their IDs and regions, smallest market_id first.",
+    "tables": "markets",
+    "columns": [
+      "market_id",
+      "market_name",
+      "region"
+    ],
+    "hints": [
+      "A market is a country in this training dataset.",
+      "Select three columns and order by the key."
+    ],
+    "pitfall": "A region contains multiple markets; region is not the key.",
+    "ordered": true,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W01E04",
+    "week": 1,
+    "session": 2,
+    "title": "Active portfolio",
+    "question": "List active projects with budgets of at least EUR 50,000. No sorting required.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "budget"
+    ],
+    "hints": [
+      "Both conditions must be true.",
+      "Combine filters with AND."
+    ],
+    "pitfall": "Using OR includes projects that satisfy only one condition.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W01E05",
+    "week": 1,
+    "session": 2,
+    "title": "Selected project types",
+    "question": "Find Brand tracking or Concept test projects with budgets from EUR 20,000 through EUR 60,000 inclusive.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "project_type",
+      "budget"
+    ],
+    "hints": [
+      "IN can match either project type.",
+      "BETWEEN includes both endpoints."
+    ],
+    "pitfall": "AND must apply to both project types; parentheses matter with OR.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W01E06",
+    "week": 1,
+    "session": 2,
+    "title": "Missing completion dates",
+    "question": "List every project whose actual_end_date is missing, including cancellations.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "status"
+    ],
+    "hints": [
+      "NULL means no recorded value.",
+      "Use IS NULL."
+    ],
+    "pitfall": "actual_end_date = NULL never evaluates to true.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W01E07",
+    "week": 1,
+    "session": 3,
+    "title": "Prioritise large projects",
+    "question": "List active projects by budget descending, with project_id ascending to break ties.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "budget"
+    ],
+    "hints": [
+      "Filter before ordering.",
+      "Each sort key can have its own direction."
+    ],
+    "pitfall": "A stable tie-breaker makes the priority list reproducible.",
+    "ordered": true,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W01E08",
+    "week": 1,
+    "session": 3,
+    "title": "Research menu",
+    "question": "List the unique project types in alphabetical order.",
+    "tables": "projects",
+    "columns": [
+      "project_type"
+    ],
+    "hints": [
+      "One output row per type.",
+      "Use DISTINCT."
+    ],
+    "pitfall": "DISTINCT on several columns deduplicates their combination.",
+    "ordered": true,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W01E09",
+    "week": 1,
+    "session": 4,
+    "title": "Overdue active work",
+    "question": "As of 2025-07-01, list active projects whose planned end date is strictly before that date. Sort by planned_end_date then project_id, ascending.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "planned_end_date",
+      "budget"
+    ],
+    "hints": [
+      "Overdue here means still active and past the planned end date.",
+      "ISO date text can be compared with a quoted ISO date."
+    ],
+    "pitfall": "A cancelled project is not active overdue work.",
+    "ordered": true,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W01E10",
+    "week": 1,
+    "session": 4,
+    "title": "Late completed work",
+    "question": "List completed projects delivered after their planned end date. Exactly on-time delivery is not late.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "planned_end_date",
+      "actual_end_date"
+    ],
+    "hints": [
+      "Compare two columns.",
+      "Require actual_end_date > planned_end_date."
+    ],
+    "pitfall": "Missing actual dates cannot establish a completed delivery delay.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W02E01",
+    "week": 2,
+    "session": 1,
+    "title": "Portfolio totals",
+    "question": "Return one row with project count, total budget, average budget rounded to two decimals, smallest budget and largest budget.",
+    "tables": "projects",
+    "columns": [
+      "project_count",
+      "total_budget",
+      "average_budget",
+      "min_budget",
+      "max_budget"
+    ],
+    "hints": [
+      "Aggregate functions collapse rows.",
+      "COUNT(*) counts every project."
+    ],
+    "pitfall": "Budget is planned commercial value; it is not invoiced revenue.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W02E02",
+    "week": 2,
+    "session": 1,
+    "title": "Recorded completion dates",
+    "question": "Return total project rows and number of recorded actual end dates.",
+    "tables": "projects",
+    "columns": [
+      "project_count",
+      "completed_date_count"
+    ],
+    "hints": [
+      "COUNT(column) ignores NULL.",
+      "Compare COUNT(*) and COUNT(actual_end_date)."
+    ],
+    "pitfall": "Counting a nullable column does not count every row.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W02E03",
+    "week": 2,
+    "session": 1,
+    "title": "Unpaid invoice summary",
+    "question": "Return one row with unpaid invoice count, total unpaid EUR and average unpaid invoice amount rounded to two decimals. Unpaid means paid_flag = 0.",
+    "tables": "invoices",
+    "columns": [
+      "invoice_count",
+      "unpaid_eur",
+      "average_unpaid_eur"
+    ],
+    "hints": [
+      "Filter to unpaid invoices before aggregating.",
+      "Use COUNT(*), SUM(amount), and ROUND(AVG(amount),2)."
+    ],
+    "pitfall": "Unpaid is a balance; it is not necessarily overdue because no due date is recorded.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W02E04",
+    "week": 2,
+    "session": 2,
+    "title": "Projects by account",
+    "question": "Count projects and sum budgets by client_id. Include only clients represented in projects.",
+    "tables": "projects",
+    "columns": [
+      "client_id",
+      "project_count",
+      "total_budget"
+    ],
+    "hints": [
+      "Each group is one client.",
+      "Group by client_id."
+    ],
+    "pitfall": "Selecting project_id would mix project grain with account grain.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W02E05",
+    "week": 2,
+    "session": 2,
+    "title": "Delivery status summary",
+    "question": "Count projects by status.",
+    "tables": "projects",
+    "columns": [
+      "status",
+      "project_count"
+    ],
+    "hints": [
+      "Create one group for each status value.",
+      "COUNT(*) counts rows within each group."
+    ],
+    "pitfall": "Filtering to one status would omit the other groups.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W02E06",
+    "week": 2,
+    "session": 2,
+    "title": "Wave workload",
+    "question": "For each project, total target completes and actual completes across all survey waves, including any open waves.",
+    "tables": "survey_waves",
+    "columns": [
+      "project_id",
+      "target_completes",
+      "actual_completes"
+    ],
+    "hints": [
+      "A wave is not a project.",
+      "Sum both columns grouped by project_id."
+    ],
+    "pitfall": "AVG(completes_actual) would describe an average wave, not total workload.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W02E07",
+    "week": 2,
+    "session": 3,
+    "title": "Large active accounts",
+    "question": "Among active projects only, find client IDs whose combined active budget exceeds EUR 100,000.",
+    "tables": "projects",
+    "columns": [
+      "client_id",
+      "active_budget"
+    ],
+    "hints": [
+      "WHERE filters the input rows.",
+      "HAVING filters the grouped total."
+    ],
+    "pitfall": "Filtering individual budgets above 100000 answers a different question.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W02E08",
+    "week": 2,
+    "session": 3,
+    "title": "Repeated shortfalls",
+    "question": "For closed waves below target only, show projects with two or more such waves. Closed means close_date IS NOT NULL.",
+    "tables": "survey_waves",
+    "columns": [
+      "project_id",
+      "below_target_waves"
+    ],
+    "hints": [
+      "First exclude open waves and waves at or above target.",
+      "Count the remaining rows per project and apply HAVING."
+    ],
+    "pitfall": "A total shortfall can hide one wave that exceeded target.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W02E09",
+    "week": 2,
+    "session": 4,
+    "title": "Budget bands",
+    "question": "Label every project: Small for budget <30000, Medium for budget >=30000 and <70000, Large otherwise.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "budget_band"
+    ],
+    "hints": [
+      "CASE evaluates branches in order.",
+      "After testing <30000, the next branch only needs <70000."
+    ],
+    "pitfall": "Check exact boundaries at 30000 and 70000.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W02E10",
+    "week": 2,
+    "session": 4,
+    "title": "Status dashboard",
+    "question": "For each status, show project count, total budget, and count of projects with budget at least EUR 70,000.",
+    "tables": "projects",
+    "columns": [
+      "status",
+      "project_count",
+      "total_budget",
+      "large_project_count"
+    ],
+    "hints": [
+      "A conditional CASE can produce 1 or 0 for every row.",
+      "SUM the conditional values within each status."
+    ],
+    "pitfall": "COUNT(CASE ... ELSE 0 END) counts zero values too.",
+    "ordered": false,
+    "difficulty": "Foundation"
+  },
+  {
+    "id": "W03E01",
+    "week": 3,
+    "session": 1,
+    "title": "Account names",
+    "question": "List every project with its client name and status.",
+    "tables": "projects, clients",
+    "columns": [
+      "project_id",
+      "client_name",
+      "status"
+    ],
+    "hints": [
+      "The foreign key links each project to one client.",
+      "Join on client_id."
+    ],
+    "pitfall": "Joining without ON creates every project/client combination.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W03E02",
+    "week": 3,
+    "session": 1,
+    "title": "Sector portfolio",
+    "question": "Count projects and sum budgets by client sector.",
+    "tables": "projects, clients",
+    "columns": [
+      "sector",
+      "project_count",
+      "total_budget"
+    ],
+    "hints": [
+      "Each project matches exactly one client.",
+      "Join then group by sector."
+    ],
+    "pitfall": "Group by sector rather than client_name to answer a sector question.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W03E03",
+    "week": 3,
+    "session": 1,
+    "title": "Market participation",
+    "question": "Show each assigned project and market name, one row per project-market pair.",
+    "tables": "project_markets, markets",
+    "columns": [
+      "project_id",
+      "market_name"
+    ],
+    "hints": [
+      "Start at the bridge table.",
+      "Join market_id to the markets key."
+    ],
+    "pitfall": "A multi-market project is supposed to appear several times here.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W03E04",
+    "week": 3,
+    "session": 2,
+    "title": "Accounts without projects",
+    "question": "Find clients that have no projects.",
+    "tables": "clients, projects",
+    "columns": [
+      "client_id",
+      "client_name"
+    ],
+    "hints": [
+      "Keep all rows from clients with LEFT JOIN.",
+      "A missing match has NULL in projects.project_id."
+    ],
+    "pitfall": "An INNER JOIN cannot retain an unmatched client.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W03E05",
+    "week": 3,
+    "session": 2,
+    "title": "Invoice coverage",
+    "question": "Return every project with its invoice count, including a zero count for projects with no invoices.",
+    "tables": "projects, invoices",
+    "columns": [
+      "project_id",
+      "invoice_count"
+    ],
+    "hints": [
+      "Use projects as the left-hand table.",
+      "COUNT(invoice_id) ignores the NULL placeholder row."
+    ],
+    "pitfall": "COUNT(*) incorrectly reports one for a project with no invoices.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W03E06",
+    "week": 3,
+    "session": 2,
+    "title": "Unassigned markets",
+    "question": "Find projects with no market assignment.",
+    "tables": "projects, project_markets",
+    "columns": [
+      "project_id",
+      "status"
+    ],
+    "hints": [
+      "An unassigned project is different from a project assigned to one market.",
+      "LEFT JOIN and test the bridge key for NULL."
+    ],
+    "pitfall": "Missing market assignment is a data-quality finding, not evidence of zero commercial value.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W03E07",
+    "week": 3,
+    "session": 3,
+    "title": "Client invoice totals",
+    "question": "For every client, show invoiced EUR, with zero for clients without invoices.",
+    "tables": "clients, projects, invoices",
+    "columns": [
+      "client_id",
+      "client_name",
+      "invoiced_eur"
+    ],
+    "hints": [
+      "Follow client \u2192 project \u2192 invoice using LEFT JOINs.",
+      "COALESCE turns a missing SUM into zero."
+    ],
+    "pitfall": "SUM(project budget) after joining invoices would repeat each budget.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W03E08",
+    "week": 3,
+    "session": 3,
+    "title": "Projects participating by market",
+    "question": "For each market, count assigned projects, including markets with zero assignments.",
+    "tables": "markets, project_markets",
+    "columns": [
+      "market_name",
+      "project_count"
+    ],
+    "hints": [
+      "One bridge row represents one project participating in one market.",
+      "Count the non-null bridge project_id."
+    ],
+    "pitfall": "Adding counts across markets can exceed the total number of projects.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W03E09",
+    "week": 3,
+    "session": 4,
+    "title": "Repair multiplied totals",
+    "question": "An analyst joined invoices and project_markets and inflated totals. Return every project with its true invoiced EUR and number of assigned markets. Zero-fill both metrics.",
+    "tables": "projects, invoices, project_markets",
+    "columns": [
+      "project_id",
+      "invoiced_eur",
+      "market_count"
+    ],
+    "hints": [
+      "Aggregate invoices and market assignments separately to project grain.",
+      "Join those two summaries to projects using CTEs; see the rescue card."
+    ],
+    "pitfall": "SUM(DISTINCT amount) is also wrong: separate invoices can have equal amounts.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W03E10",
+    "week": 3,
+    "session": 4,
+    "title": "Client and market management view",
+    "question": "Return every client with project count, total project budget, invoiced EUR and distinct participating market count. No market-level revenue allocation is defined.",
+    "tables": "clients, projects, invoices, project_markets",
+    "columns": [
+      "client_id",
+      "project_count",
+      "total_budget",
+      "invoiced_eur",
+      "market_count"
+    ],
+    "hints": [
+      "Summarise project values, invoices and market coverage independently by client.",
+      "Join the three account-grain summaries to clients and zero-fill."
+    ],
+    "pitfall": "Neither DISTINCT budget nor assigning all revenue to every market repairs duplicated totals.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W04E01",
+    "week": 4,
+    "session": 1,
+    "title": "June delivery cohort",
+    "question": "List completed projects delivered during June 2025. Include June 1 and exclude July 1.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "actual_end_date"
+    ],
+    "hints": [
+      "Use an inclusive lower bound and exclusive upper bound.",
+      "Compare actual_end_date to 2025-06-01 and 2025-07-01."
+    ],
+    "pitfall": "The cohort is defined by delivery date, not start date.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W04E02",
+    "week": 4,
+    "session": 1,
+    "title": "Monthly launches",
+    "question": "Count project starts by month across all projects. Return month as YYYY-MM and sort oldest first.",
+    "tables": "projects",
+    "columns": [
+      "month",
+      "launched_projects"
+    ],
+    "hints": [
+      "strftime formats ISO dates in SQLite.",
+      "Group by strftime('%Y-%m',start_date)."
+    ],
+    "pitfall": "These are project launches; survey wave launches are a different event.",
+    "ordered": true,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W04E03",
+    "week": 4,
+    "session": 1,
+    "title": "Quarterly invoices",
+    "question": "Summarise invoice amounts for Q1 and Q2 2025, one row per quarter labeled 2025-Q1 or 2025-Q2, sorted by quarter.",
+    "tables": "invoices",
+    "columns": [
+      "quarter",
+      "invoiced_eur"
+    ],
+    "hints": [
+      "Filter to [2025-01-01,2025-07-01).",
+      "CASE can split months before April from the rest."
+    ],
+    "pitfall": "Do not use PostgreSQL DATE_TRUNC in SQLite.",
+    "ordered": true,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W04E04",
+    "week": 4,
+    "session": 2,
+    "title": "Find tracking work",
+    "question": "Find projects whose project_type contains the text tracking. Match case-insensitively.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "project_type"
+    ],
+    "hints": [
+      "Use LIKE and wildcard characters.",
+      "LOWER(project_type) makes the intended matching explicit."
+    ],
+    "pitfall": "An underscore wildcard means one character; percent means any sequence.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W04E05",
+    "week": 4,
+    "session": 2,
+    "title": "Export client labels",
+    "question": "Return every client ID with an uppercase client label and the label length.",
+    "tables": "clients",
+    "columns": [
+      "client_id",
+      "client_label",
+      "label_length"
+    ],
+    "hints": [
+      "SQLite provides UPPER and LENGTH.",
+      "Apply both functions to client_name."
+    ],
+    "pitfall": "LENGTH counts characters, not words.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W04E06",
+    "week": 4,
+    "session": 2,
+    "title": "Completed duration",
+    "question": "For each completed project, return elapsed calendar days from start to actual end as an integer. Same-day delivery would be zero days.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "duration_days"
+    ],
+    "hints": [
+      "Subtract julianday values.",
+      "CAST the difference AS INTEGER."
+    ],
+    "pitfall": "Subtracting ISO date text directly does not calculate elapsed days.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W04E07",
+    "week": 4,
+    "session": 3,
+    "title": "Above-average budgets",
+    "question": "List projects whose budget exceeds the average budget across all projects.",
+    "tables": "projects",
+    "columns": [
+      "project_id",
+      "budget"
+    ],
+    "hints": [
+      "A scalar subquery can calculate a single benchmark.",
+      "Compare budget with (SELECT AVG(budget) FROM projects)."
+    ],
+    "pitfall": "A per-client average would change the comparison group.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W04E08",
+    "week": 4,
+    "session": 3,
+    "title": "Account balances with a CTE",
+    "question": "Show every client with paid EUR and unpaid EUR, using a readable invoice summary. Fill missing balances with zero.",
+    "tables": "clients, projects, invoices",
+    "columns": [
+      "client_id",
+      "paid_eur",
+      "unpaid_eur"
+    ],
+    "hints": [
+      "Build a CTE at client grain with conditional sums.",
+      "Join it to all clients."
+    ],
+    "pitfall": "Filtering paid_flag in WHERE would remove one side of the balance.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W04E09",
+    "week": 4,
+    "session": 4,
+    "title": "Monthly delivery report",
+    "question": "By actual delivery month, show completed projects, late completions and late percentage rounded to one decimal. Sort by month. Only completed projects belong in the denominator.",
+    "tables": "projects",
+    "columns": [
+      "month",
+      "completed_projects",
+      "late_projects",
+      "late_pct"
+    ],
+    "hints": [
+      "A late completion has actual_end_date > planned_end_date.",
+      "Use 100.0 to avoid integer division."
+    ],
+    "pitfall": "Active overdue projects are a different metric and must not enter this denominator.",
+    "ordered": true,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W04E10",
+    "week": 4,
+    "session": 4,
+    "title": "June monthly summary",
+    "question": "Return one row: projects started in June, projects completed in June, late completions among those June completions, and invoiced EUR dated in June.",
+    "tables": "projects, invoices",
+    "columns": [
+      "launched_projects",
+      "completed_projects",
+      "late_projects",
+      "invoiced_eur"
+    ],
+    "hints": [
+      "These four metrics have different date/cohort definitions.",
+      "Use independent scalar subqueries or one-row CTEs."
+    ],
+    "pitfall": "Joining project and invoice rows directly can multiply delivery counts.",
+    "ordered": false,
+    "difficulty": "Practice"
+  },
+  {
+    "id": "W05E01",
+    "week": 5,
+    "session": 1,
+    "title": "Two biggest projects per account",
+    "question": "Return up to two projects per client by budget descending. Break ties by project_id ascending. Include position numbered 1 or 2.",
+    "tables": "projects",
+    "columns": [
+      "client_id",
+      "project_id",
+      "budget",
+      "position"
+    ],
+    "hints": [
+      "Use ROW_NUMBER partitioned by client_id.",
+      "Filter the window result in an outer query."
+    ],
+    "pitfall": "LIMIT 2 would select two projects globally, not per account.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W05E02",
+    "week": 5,
+    "session": 1,
+    "title": "Tied budget rankings",
+    "question": "Rank all projects within each project_type by budget descending using competition rank: equal budgets share rank and the next rank skips places.",
+    "tables": "projects",
+    "columns": [
+      "project_type",
+      "project_id",
+      "budget",
+      "budget_rank"
+    ],
+    "hints": [
+      "RANK differs from ROW_NUMBER and DENSE_RANK.",
+      "Do not put project_id in the window ordering because that would break budget ties."
+    ],
+    "pitfall": "Output ordering and window ranking are separate choices.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W05E03",
+    "week": 5,
+    "session": 1,
+    "title": "Latest survey wave",
+    "question": "For every project, return its latest wave by wave_number along with actual completes.",
+    "tables": "survey_waves",
+    "columns": [
+      "project_id",
+      "wave_number",
+      "completes_actual"
+    ],
+    "hints": [
+      "Rank wave numbers descending within each project.",
+      "Keep ROW_NUMBER = 1 in an outer query."
+    ],
+    "pitfall": "MAX(wave_number) next to an ungrouped actual count is not portable or clear SQL.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W05E04",
+    "week": 5,
+    "session": 2,
+    "title": "Portfolio month-on-month",
+    "question": "For each invoicing month, return invoice total and change in EUR from the previous month. The first change is NULL. Every calendar month Jan\u2013Jun is present in this dataset. Sort by month.",
+    "tables": "invoices",
+    "columns": [
+      "month",
+      "invoiced_eur",
+      "change_eur"
+    ],
+    "hints": [
+      "Aggregate to one row per month first.",
+      "Subtract LAG(invoiced_eur) ordered by month."
+    ],
+    "pitfall": "LAG on raw invoices compares invoices, not months.",
+    "ordered": true,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W05E05",
+    "week": 5,
+    "session": 2,
+    "title": "Wave-to-wave change",
+    "question": "For each project wave, show actual completes and change versus the preceding wave number. The first wave change is NULL.",
+    "tables": "survey_waves",
+    "columns": [
+      "project_id",
+      "wave_number",
+      "completes_actual",
+      "change_completes"
+    ],
+    "hints": [
+      "Partition by project so accounts are not mixed.",
+      "Order the window by wave_number."
+    ],
+    "pitfall": "Zero is an observed change; NULL means no previous observation.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W05E06",
+    "week": 5,
+    "session": 2,
+    "title": "Previous observed month per client",
+    "question": "For every client-month with invoices, return total EUR and previous observed month total for that same client. First observation is NULL. Missing months are skipped in this exercise.",
+    "tables": "projects, invoices",
+    "columns": [
+      "client_id",
+      "month",
+      "invoiced_eur",
+      "previous_eur"
+    ],
+    "hints": [
+      "Aggregate by client and month, then use LAG.",
+      "Partition the window by client_id."
+    ],
+    "pitfall": "Previous observed month need not be the previous calendar month.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W05E07",
+    "week": 5,
+    "session": 3,
+    "title": "Cumulative invoicing",
+    "question": "Return monthly invoice totals and cumulative invoiced EUR, oldest month first.",
+    "tables": "invoices",
+    "columns": [
+      "month",
+      "invoiced_eur",
+      "cumulative_eur"
+    ],
+    "hints": [
+      "Build a monthly summary first.",
+      "SUM over ORDER BY month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW."
+    ],
+    "pitfall": "A cumulative total on raw invoice rows has invoice grain, not month grain.",
+    "ordered": true,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W05E08",
+    "week": 5,
+    "session": 3,
+    "title": "Client revenue share",
+    "question": "For clients with invoices, return total invoiced EUR and their percentage of all invoiced EUR rounded to two decimals.",
+    "tables": "projects, invoices",
+    "columns": [
+      "client_id",
+      "invoiced_eur",
+      "share_pct"
+    ],
+    "hints": [
+      "Summarise each account first.",
+      "SUM(invoiced_eur) OVER () gives the full-account denominator."
+    ],
+    "pitfall": "Average invoice share is not the same as account share of total revenue.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W05E09",
+    "week": 5,
+    "session": 4,
+    "title": "May to June account movement",
+    "question": "Return every client with May EUR, June EUR, June-minus-May change, and movement labeled growth, decline or flat. Treat absent months as zero.",
+    "tables": "clients, projects, invoices",
+    "columns": [
+      "client_id",
+      "may_eur",
+      "june_eur",
+      "change_eur",
+      "movement"
+    ],
+    "hints": [
+      "Use conditional sums per client for May and June.",
+      "LEFT JOIN all clients; compute labels from the difference."
+    ],
+    "pitfall": "Filtering invoice dates in WHERE after LEFT JOIN can drop inactive clients.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W05E10",
+    "week": 5,
+    "session": 4,
+    "title": "Three largest account declines",
+    "question": "Using the same May/June definition, return up to three declining clients with the most negative EUR changes first, ties by client_id. Include client names.",
+    "tables": "clients, projects, invoices",
+    "columns": [
+      "client_id",
+      "client_name",
+      "change_eur"
+    ],
+    "hints": [
+      "Exclude flat or growing accounts before selecting three.",
+      "Calculate monthly totals before ranking or sorting."
+    ],
+    "pitfall": "A zero June total is a decline if May was positive; do not lose that account.",
+    "ordered": true,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W06E01",
+    "week": 6,
+    "session": 1,
+    "title": "Verify the bridge grain",
+    "question": "Find duplicate project-market pairs, returning each repeated pair and its row count. The correct result is empty. Explain outside SQL why the primary key prevents these duplicates.",
+    "tables": "project_markets",
+    "columns": [
+      "project_id",
+      "market_id",
+      "row_count"
+    ],
+    "hints": [
+      "Group by both parts of the key.",
+      "HAVING COUNT(*) > 1 identifies repeated pairs."
+    ],
+    "pitfall": "Grouping only by project_id would mistake legitimate multiple markets for duplicate pairs.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W06E02",
+    "week": 6,
+    "session": 1,
+    "title": "Pre-join audit",
+    "question": "Return one row with counts of projects, invoices, waves and project-market pairs before joining anything.",
+    "tables": "projects, invoices, survey_waves, project_markets",
+    "columns": [
+      "project_count",
+      "invoice_count",
+      "wave_count",
+      "assignment_count"
+    ],
+    "hints": [
+      "Each count has its own grain.",
+      "Independent scalar subqueries avoid multiplying rows."
+    ],
+    "pitfall": "A four-way join count does not describe any one source table.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W06E03",
+    "week": 6,
+    "session": 2,
+    "title": "Active overdue rate by account",
+    "question": "For clients with active projects, return active project count, overdue active count and overdue percentage rounded to one decimal as of 2025-07-01.",
+    "tables": "projects",
+    "columns": [
+      "client_id",
+      "active_projects",
+      "overdue_projects",
+      "overdue_pct"
+    ],
+    "hints": [
+      "The denominator is active projects for that client.",
+      "Overdue means planned_end_date < 2025-07-01."
+    ],
+    "pitfall": "Cancelled projects and completed late deliveries are outside this metric.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W06E04",
+    "week": 6,
+    "session": 2,
+    "title": "Closed-wave attainment",
+    "question": "For each project with closed waves, return total target, actual completes and weighted attainment percentage rounded to one decimal. Include only closed waves.",
+    "tables": "survey_waves",
+    "columns": [
+      "project_id",
+      "target_completes",
+      "actual_completes",
+      "attainment_pct"
+    ],
+    "hints": [
+      "Weighted attainment = summed actual / summed target.",
+      "Use 100.0 and group by project."
+    ],
+    "pitfall": "An average of wave percentages assigns equal weight to different-size targets.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W06E05",
+    "week": 6,
+    "session": 2,
+    "title": "Market delivery participation",
+    "question": "For each market, count distinct completed projects participating and completed late projects participating. Markets with no completed projects should show zero.",
+    "tables": "markets, project_markets, projects",
+    "columns": [
+      "market_name",
+      "completed_projects",
+      "late_projects"
+    ],
+    "hints": [
+      "Keep markets even when their projects are not completed.",
+      "COUNT DISTINCT CASE can count conditional project IDs."
+    ],
+    "pitfall": "These participation counts overlap across markets and must not be summed into a portfolio count.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W06E06",
+    "week": 6,
+    "session": 3,
+    "title": "Unpaid balance ageing",
+    "question": "As of 2025-07-01, return unpaid invoice amounts in age bands 0-30, 31-60 and 61+ days, with invoice counts. Include only bands with invoices. Age is elapsed days since invoice_date.",
+    "tables": "invoices",
+    "columns": [
+      "age_band",
+      "invoice_count",
+      "unpaid_eur"
+    ],
+    "hints": [
+      "Use julianday to calculate calendar age.",
+      "CASE boundaries are <=30, <=60, else 61+."
+    ],
+    "pitfall": "Age since issuance does not establish overdue payment without agreed due dates.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W06E07",
+    "week": 6,
+    "session": 3,
+    "title": "Sector budgets and billing",
+    "question": "Return every sector with total project budget and invoiced EUR. Ensure every project budget is counted once.",
+    "tables": "clients, projects, invoices",
+    "columns": [
+      "sector",
+      "total_budget",
+      "invoiced_eur"
+    ],
+    "hints": [
+      "Preaggregate invoices to project grain before joining.",
+      "A LEFT JOIN retains projects with no invoices."
+    ],
+    "pitfall": "SUM(DISTINCT budget) loses separate projects that happen to share a budget.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W06E08",
+    "week": 6,
+    "session": 3,
+    "title": "June revenue concentration",
+    "question": "For clients with invoices dated in June, show June invoiced EUR, share of all June invoicing rounded to one decimal and competition rank by June EUR descending.",
+    "tables": "projects, invoices",
+    "columns": [
+      "client_id",
+      "june_eur",
+      "share_pct",
+      "revenue_rank"
+    ],
+    "hints": [
+      "Use a June-only client summary as input.",
+      "Use SUM OVER () and RANK OVER (ORDER BY june_eur DESC)."
+    ],
+    "pitfall": "The denominator must contain June invoicing only.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W06E09",
+    "week": 6,
+    "session": 4,
+    "title": "Briefing table: June commercial health",
+    "question": "For every client, return client name, June invoiced EUR, and total unpaid EUR across all invoice dates before 2025-07-01. Zero-fill absent values. Save this as query 1 in the capstone.",
+    "tables": "clients, projects, invoices",
+    "columns": [
+      "client_id",
+      "client_name",
+      "june_invoiced_eur",
+      "unpaid_eur"
+    ],
+    "hints": [
+      "The two measures use different time windows.",
+      "Conditional sums can preserve all clients with LEFT JOINs."
+    ],
+    "pitfall": "Current paid_flag is the snapshot payment state; historic month-end payment states are unavailable.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  },
+  {
+    "id": "W06E10",
+    "week": 6,
+    "session": 4,
+    "title": "Briefing table: June delivery health",
+    "question": "For every client, show June completed project count, June late completed project count and late percentage rounded to one decimal. Return NULL percentage when no projects were completed in June. Save as query 2 in the capstone.",
+    "tables": "clients, projects",
+    "columns": [
+      "client_id",
+      "completed_projects",
+      "late_projects",
+      "late_pct"
+    ],
+    "hints": [
+      "Filter the completed-June cohort in a CTE or JOIN condition.",
+      "Use NULLIF(count,0) to protect an undefined rate."
+    ],
+    "pitfall": "Zero late deliveries out of zero deliveries is an undefined rate, not 0% success.",
+    "ordered": false,
+    "difficulty": "Stretch"
+  }
+]
